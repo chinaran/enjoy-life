@@ -19,6 +19,8 @@ git 标准化 commit message 工具
 
 ## 2. 使用效果
 
+![工具使用示例](./src/img/git-std-commit-msg.gif "工具使用示例")
+
 ## 3. 安装
 shell 切换成 zsh，使用 oh-my-zsh 更佳
 
