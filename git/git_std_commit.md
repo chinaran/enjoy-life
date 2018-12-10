@@ -26,11 +26,11 @@ shell 切换成 zsh，使用 oh-my-zsh 更佳
 
 * 方法一
 
-  把 git_std_commit.sh 文件内容拷贝到 ~/.zshrc 中
+  把 [git_std_commit.sh](./git_std_commit.sh) 文件内容拷贝到 ~/.zshrc 中
 
 * 方法二
 
-  下载 git_std_commit.sh 到某个路径(dir)，  
+  下载 [git_std_commit.sh](./git_std_commit.sh) 到某个路径(dir)，  
   在 ~/.zshrc 末尾添加 source dir/git_std_commit.sh
 
 工具生效都需要执行 source ~/.zshrc
