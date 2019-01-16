@@ -10,7 +10,7 @@
 # perf:     性能优化（performance）
 # tmp:      临时提交
 
-_std_commit() {
+_std_commit_list() {
 	if [[ $# < 2 ]]; then
 		echo "Commit can not be empty"
 		echo "Usage: gcmm-xxx commit1 commit2 commit3 ..."
@@ -37,18 +37,28 @@ _std_commit() {
 	git commit -m "$final"
 }
 
-gcmm-feat()     { _std_commit "feat" $@     }
-gcmm-fix()      { _std_commit "fix" $@      }
-gcmm-docs()     { _std_commit "docs" $@     }
-gcmm-style()    { _std_commit "style" $@    }
-gcmm-refactor() { _std_commit "refactor" $@ }
-gcmm-test()     { _std_commit "test" $@     }
-gcmm-chore()    { _std_commit "chore" $@    }
-gcmm-perf()     { _std_commit "perf" $@     }
+_std_commit() {
+	if [[ $# < 2 ]]; then
+		echo "Commit can not be empty"
+		echo "Usage: gcmm-xxx commit message"
+		return
+	fi
+
+	git commit -m "$1: $2"
+}
+
+gcmm-feat()     { _std_commit "feat" "$*"     }
+gcmm-fix()      { _std_commit "fix" "$*"      }
+gcmm-docs()     { _std_commit "docs" "$*"     }
+gcmm-style()    { _std_commit "style" "$*"    }
+gcmm-refactor() { _std_commit "refactor" "$*" }
+gcmm-test()     { _std_commit "test" "$*"     }
+gcmm-chore()    { _std_commit "chore" "$*"    }
+gcmm-perf()     { _std_commit "perf" "$*"     }
 gcmm-tmp() {
 	if [[ $# == 0 ]]; then
 		_std_commit "tmp" "临时提交"
 		return
 	fi
-	_std_commit "tmp" $@
+	_std_commit "tmp" "$*"
 }
