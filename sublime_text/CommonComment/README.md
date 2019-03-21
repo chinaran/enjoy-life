@@ -4,14 +4,15 @@ This Sublime Text 2/3  plugin adds some convenient commands to write file/block 
 
 ## Commands
 
-* Add Current Datetime
+* **Add Current Datetime**
 
 ```
 Example:
 2019-03-20 21:10:54
 ```
 
-* Add Code Block Comment
+* **Add Code Block Comment**
+
 support c/c++/go/python/shell/markdown file
 
 ```
@@ -19,7 +20,8 @@ Example:
 /** {write comments here} (Alan 2019-03-21 18:00:30) **/
 ```
 
-* Add File Comment
+* **Add File Comment**
+
 support c/c++/go/python/shell/markdown file
 
 ```
