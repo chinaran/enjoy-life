@@ -1,0 +1,14 @@
+[
+	{
+		"caption": "Add File Comment",
+		"command": "add_file_comment"
+	},
+	{
+		"caption": "Add Code Block Comment",
+		"command": "add_code_block_comment"
+	},
+	{
+		"caption": "Add Current Datetime",
+		"command": "add_current_datetime"
+	}
+]
