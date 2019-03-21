@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+for _, ${1:v} := range ${2:slice} {
+	${3:}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>for range</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.go</scope>
+</snippet>
