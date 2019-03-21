@@ -3,10 +3,13 @@ import sublime, sublime_plugin
 import datetime
 import os
 
+# Get setting
+settings = sublime.load_settings("CommonComment.sublime-settings")
+__AuthorName__  = settings.get('author_name', 'Your Name')
+__AuthorEmail__ = settings.get('author_email', 'yours@email.com')
+
 # Global var
-__AuthorName__ = "Alan"
-__AuthorEmail__ = "gchinaran@gmail.com"
-__CommentAuthor__ = "(%s %s)" %(__AuthorName__, __AuthorEmail__)
+__CommentAuthor__ = "%s (%s)" %(__AuthorName__, __AuthorEmail__)
 
 # 优化文件路径
 # 包含 git 仓库的文件路径从 git 仓库开始，否则只保留文件名字
