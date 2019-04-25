@@ -1,21 +1,15 @@
 import datetime, getpass
 import sublime, sublime_plugin
 import datetime
+import sys
 import os
 
-# Get setting
-settings = sublime.load_settings("CommonComment.sublime-settings")
-__AuthorName__  = settings.get('author_name', 'Your Name')
-__AuthorEmail__ = settings.get('author_email', 'yours@email.com')
-
-# Global var
-__CommentAuthor__ = "%s (%s)" %(__AuthorName__, __AuthorEmail__)
 
 # 优化文件路径
 # 包含 git 仓库的文件路径从 git 仓库开始，否则只保留文件名字
 def handle_code_file_path(file_path):
     # 该列表可以自由添加
-    l = ["github.com"]
+    l = ["github.com", "git.bdmd.com"]
     for git in l:
         i = file_path.find(git)
         if i != -1:
@@ -27,7 +21,18 @@ def getCurDatetime():
 
 # 添加文件开头注释
 class AddFileCommentCommand(sublime_plugin.TextCommand):
+    def __init__(self, edit):
+        settings = sublime.load_settings("CommonComment.sublime-settings")
+        author_name = settings.get('author_name', 'Your Name')
+        author_email = settings.get('author_email', 'yours@email.com')
+        self.comment_author = "%s (%s)" %(author_name, author_email)
+        if sys.version_info[0] == 2:
+            super(AddFileCommentCommand, self).__init__(edit)
+        else:
+            super().__init__(edit)
+
     def run(self, edit):
+        settings = sublime.load_settings("CommonComment.sublime-settings")
         file_path = self.view.file_name()
         if file_path is None:
             print("Can not comment without file")
@@ -36,7 +41,7 @@ class AddFileCommentCommand(sublime_plugin.TextCommand):
             self.view.run_command("insert_snippet",
                 {
                     "contents": '"""' "\n"
-                        "    Author:       " + __CommentAuthor__ + "\n"
+                        "    Author:       " + self.comment_author + "\n"
                         "    Created Time: " "%s" %getCurDatetime() + "\n"
                         "    File Name:    " "%s" %handle_code_file_path(file_path) + "\n"
                         "    Description:  " "\n"
@@ -47,7 +52,7 @@ class AddFileCommentCommand(sublime_plugin.TextCommand):
             self.view.run_command("insert_snippet",
                 {
                     "contents": "##""\n"
-                    " # Author:        " + __CommentAuthor__ + "\n"
+                    " # Author:        " + self.comment_author + "\n"
                     " # Created Time:  " "%s" %getCurDatetime() + "\n"
                     " # File Name:     " "%s" %handle_code_file_path(file_path) + "\n"
                     " # Description:   " "\n"
@@ -59,7 +64,7 @@ class AddFileCommentCommand(sublime_plugin.TextCommand):
             self.view.run_command("insert_snippet",
                 {
                     "contents":
-                    "<!-- Author:       " + __CommentAuthor__ + " -->\n"
+                    "<!-- Author:       " + self.comment_author + " -->\n"
                     "<!-- Created Time: " "%s" %getCurDatetime() + " -->\n"
                     "<!-- File Name:    " "%s" %handle_code_file_path(file_path) + " -->\n"
                     "<!-- Description:  " " -->\n"
@@ -69,7 +74,7 @@ class AddFileCommentCommand(sublime_plugin.TextCommand):
             self.view.run_command("insert_snippet",
                 {
                     "contents": "/**""\n"
-                    " * Author:       " + __CommentAuthor__ + "\n"
+                    " * Author:       " + self.comment_author + "\n"
                     " * Created Time: " "%s" %getCurDatetime() + "\n"
                     " * File Name:    " "%s" %handle_code_file_path(file_path) + "\n"
                     " * Description:  " "\n"
@@ -79,6 +84,14 @@ class AddFileCommentCommand(sublime_plugin.TextCommand):
 
 # 添加代码块注释
 class AddCodeBlockCommentCommand(sublime_plugin.TextCommand):
+    def __init__(self, edit):
+        settings = sublime.load_settings("CommonComment.sublime-settings")
+        self.author_name = settings.get('author_name', 'Your Name')
+        if sys.version_info[0] == 2:
+            super(AddFileCommentCommand, self).__init__(edit)
+        else:
+            super().__init__(edit)
+
     def run(self, edit):
         file_path = self.view.file_name()
         if file_path is None:
@@ -87,25 +100,25 @@ class AddCodeBlockCommentCommand(sublime_plugin.TextCommand):
         if file_path.endswith(".py"):
             self.view.run_command("insert_snippet",
                 {
-                    "contents": "##  (%s %s) ##" % (__AuthorName__, getCurDatetime()) 
+                    "contents": "##  (%s %s) ##" % (self.author_name, getCurDatetime()) 
                 }
             )
         elif file_path.endswith(".sh"):
             self.view.run_command("insert_snippet",
                 {
-                    "contents": "##  (%s %s) ##" % (__AuthorName__, getCurDatetime())
+                    "contents": "##  (%s %s) ##" % (self.author_name, getCurDatetime())
                 }
             )
         elif file_path.endswith(".md"):
             self.view.run_command("insert_snippet",
                 {
-                    "contents": "<!--  (%s %s) -->" % (__AuthorName__, getCurDatetime())
+                    "contents": "<!--  (%s %s) -->" % (self.author_name, getCurDatetime())
                 }
             )
         else: # go c/c++
             self.view.run_command("insert_snippet",
                 {
-                    "contents": "/**  (%s %s) **/" % (__AuthorName__, getCurDatetime())
+                    "contents": "/**  (%s %s) **/" % (self.author_name, getCurDatetime())
                 }
             )
 
